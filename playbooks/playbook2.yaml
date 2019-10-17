@@ -1,0 +1,12 @@
+---
+
+- hosts: production
+  become_user: root
+  tasks:
+  - name: create an devops user 
+    user: name=devops state=present shell=/bin/bash
+  - name: copy ansible master public ssh key to the user
+    authorized_key:
+      user: devops
+      state: present
+      key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"

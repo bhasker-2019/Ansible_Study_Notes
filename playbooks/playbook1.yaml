@@ -1,0 +1,21 @@
+---
+- hosts: production
+  tasks:
+  - name: Install apache2 on ubuntu server
+    apt: name=apache2 state=present update_cache=yes
+    when: ansible_distribution == "Ubuntu"
+  
+  - name: Install httpd on CentOS serer
+    yum: name=httpd state=latest
+    when: ansible_distribution == "CentOS"
+
+  - name: Deploy index.html on Ubuntu and CentOS
+    copy: src=/root/playbooks/index.html dest=/var/www/html/index.html
+
+  - name: start apache2 on Ubuntu
+    service: name=apache2 state=restarted
+    when: ansible_distribution == "Ubuntu"
+
+  - name: start httpd on CentOS
+    service: name=httpd state=restarted
+    when: ansible_distribution == "CentOS"

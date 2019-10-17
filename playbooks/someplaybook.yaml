@@ -1,0 +1,5 @@
+---
+- hosts: production
+  become_user: root
+  roles:
+  - apache
